@@ -2,6 +2,8 @@
 
 Porte C++/MQL5 de um indicador de price action — zonas de suporte e resistência derivadas de fractais de preço validados por volume — para uso no MetaTrader 5.
 
+**🇧🇷 Português** · [🇺🇸 English](#english)
+
 ![FractoVol](screenshot.png)
 
 ## O que é
@@ -41,3 +43,47 @@ Este repositório é licenciado sob MIT; a lógica original do indicador, escrit
 ## Aviso
 
 Uso educacional e de análise técnica. Este indicador não constitui recomendação de investimento.
+
+---
+
+## English
+
+C++/MQL5 port of a price action indicator — support and resistance zones derived from volume-validated price fractals — for MetaTrader 5.
+
+### What it is
+
+FractoVol is a port of the Pine indicator "Volume-based Support & Resistance Zones V2", published on TradingView by tommyf1001 (who credits prior work by synapticex and Lij_MC as the basis for the original logic), reimplemented from scratch in C++ (calculation engine, compiled as an x64 DLL) and MQL5 (plotting wrapper for MetaTrader 5).
+
+Detection follows a 5-bar Williams fractal:
+
+- Resistance: a top pivot confirmed by 3 successive rising highs followed by 2 falling highs.
+- Support: the same pattern mirrored with lows.
+- Volume confirmation: the fractal is only validated if the pivot bar's volume exceeds a simple moving average of volume, with a configurable period.
+
+Every validated fractal generates a zone (box) bounded between the fractal level (the pivot's high or low) and the edge of that bar's candle body (the higher of open/close for resistance, the lower for support) — the distance between these two edges reflects the level's significance.
+
+The indicator supports up to 4 simultaneous timeframes (the chart's current timeframe plus 3 configurable ones), with line extension to the right, timeframe labels on active zones, and configurable touch/breakout alerts per timeframe.
+
+In the port, the C++ engine is stateless: it processes one OHLCV series per call and returns the zones found. Multi-timeframe support is handled in the MQL5 wrapper, which calls the engine once per configured timeframe, feeding it with `CopyRates` data for that period.
+
+### Installation — precompiled version
+
+1. Copy `volume_sr.dll` into the MetaTrader 5 terminal's `MQL5/Libraries` folder.
+2. Copy `TV_14_VolumeSR.ex5` into the same terminal's `MQL5/Indicators` folder.
+3. Restart MetaTrader 5 (or, in the Navigator, refresh/reload the indicator list).
+4. Drag the `TV_14_VolumeSR` indicator from the Navigator onto the chart and adjust the timeframe and volume parameters in the properties window.
+
+### Build from source
+
+1. Compile the C++ engine (`volume_sr`) with g++/MinGW-w64 using the `build.sh` script included in `src/cpp/` — it produces `volume_sr.dll` (x64).
+2. Open `src/mql5/TV_14_VolumeSR.mq5` in MetaTrader 5's MetaEditor.
+3. Compile with F7 to produce `TV_14_VolumeSR.ex5`.
+4. Follow the installation steps above to place the `.dll` in `MQL5/Libraries` and the `.ex5` in `MQL5/Indicators`.
+
+### License
+
+This repository is licensed under MIT; the original indicator logic, written in Pine Script, was authored by tommyf1001.
+
+### Disclaimer
+
+Educational and technical-analysis use only. This indicator does not constitute investment advice.
