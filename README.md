@@ -50,6 +50,8 @@ Uso educacional e de análise técnica. Este indicador não constitui recomenda�
 
 C++/MQL5 port of a price action indicator — support and resistance zones derived from volume-validated price fractals — for MetaTrader 5.
 
+![FractoVol](screenshot.png)
+
 ### What it is
 
 FractoVol is a port of the Pine indicator "Volume-based Support & Resistance Zones V2", published on TradingView by tommyf1001 (who credits prior work by synapticex and Lij_MC as the basis for the original logic), reimplemented from scratch in C++ (calculation engine, compiled as an x64 DLL) and MQL5 (plotting wrapper for MetaTrader 5).
